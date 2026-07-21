@@ -15,11 +15,13 @@ os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 MODEL_PATH = 'model_sepatu_vgg16.h5'
 
 
+MODEL_PATH = 'model_sepatu_vgg16.h5'
+
 if not os.path.exists(MODEL_PATH):
     print("Mengunduh model dari Google Drive...")
-    # Ganti ID_GOOGLE_DRIVE_KAMU dengan ID file dari link Google Drive yang sudah disalin
     file_id = '14XS7xthTLaKM_cEO6cX7fNtzrJgq1V16'
-    url = f'https://drive.google.com/uc?export=download&id={file_id}'
+    # Menggunakan parameter konfirmasi bypass Google Drive
+    url = f'https://drive.google.com/uc?export=download&confirm=t&id={file_id}'
     gdown.download(url, MODEL_PATH, quiet=False)
 
 # Load model
