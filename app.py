@@ -1,28 +1,23 @@
+import os
+import urllib.request
 from flask import Flask, render_template, request
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
 import numpy as np
-import os
-import gdown
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
-
-# Pastikan folder upload ada
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 MODEL_PATH = 'model_sepatu_vgg16.h5'
 
-
-MODEL_PATH = 'model_sepatu_vgg16.h5'
-
+# Download model otomatis dari link Railway Variables jika belum ada di server
 if not os.path.exists(MODEL_PATH):
-    print("Mengunduh model dari Google Drive...")
-    file_id = '14XS7xthTLaKM_cEO6cX7fNtzrJgq1V16'
-    # Menggunakan parameter konfirmasi bypass Google Drive
-    url = f'https://drive.google.com/uc?export=download&confirm=t&id={file_id}'
-    gdown.download(url, MODEL_PATH, quiet=False)
+    print("Mengunduh model dari Google Drive via Railway Variable...")
+    MODEL_URL = os.environ.get('MODEL_URL')
+    urllib.request.urlretrieve(MODEL_URL, MODEL_PATH)
+    print("Model berhasil diunduh!")
 
 # Load model
 model = load_model(MODEL_PATH)
