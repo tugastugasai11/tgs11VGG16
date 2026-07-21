@@ -3,6 +3,7 @@ from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
 import numpy as np
 import os
+import gdown
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
@@ -11,8 +12,18 @@ app.config['UPLOAD_FOLDER'] = 'static/uploads'
 # Pastikan folder upload ada
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
-# Load model yang sudah dilatih
-model = load_model('model_sepatu_vgg16.h5')
+MODEL_PATH = 'model_sepatu_vgg16.h5'
+
+
+if not os.path.exists(MODEL_PATH):
+    print("Mengunduh model dari Google Drive...")
+    # Ganti ID_GOOGLE_DRIVE_KAMU dengan ID file dari link Google Drive yang sudah disalin
+    file_id = '14XS7xthTLaKM_cEO6cX7fNtzrJgq1V16'
+    url = f'https://drive.google.com/uc?id={file_id}'
+    gdown.download(url, MODEL_PATH, quiet=False)
+
+# Load model
+model = load_model(MODEL_PATH)
 classes = ['Adidas', 'Converse', 'Nike']
 
 @app.route('/', methods=['GET', 'POST'])
