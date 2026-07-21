@@ -1,0 +1,17 @@
+# Mengabaikan file model Machine Learning
+*.h5
+
+# Mengabaikan folder dataset (GitHub bukan tempat simpan ribuan gambar)
+data/
+
+# Mengabaikan folder upload hasil testing user
+static/uploads/*
+!static/uploads/.gitkeep
+
+# Mengabaikan Virtual Environment (jika kamu pakai)
+venv/
+env/
+
+# Mengabaikan file cache Python
+__pycache__/
+*.pyc
